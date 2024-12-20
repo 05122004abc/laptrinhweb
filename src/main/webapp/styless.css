@@ -1,0 +1,146 @@
+@charset "UTF-8";
+    /* Tổng thể body */
+    body {
+        font-family: 'Times New Roman', Times, serif, sans-serif;
+        
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }.logo {
+        width: 50px; /* Điều chỉnh kích thước phù hợp */
+        height: auto;
+    }
+    .main-content h1 {
+        font-size: 2rem;
+        color: #28a745;
+        margin-left: 10px;
+    }
+    /* Header */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #4CAF50;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    /* Main content */
+    .main-content {
+        margin-left: 270px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card thiết kế */
+    .card:hover {
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover i {
+    transform: rotate(10deg) scale(1.2);
+    color: #fff;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+    /* Bố cục các dòng */
+    .row {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+    }
+
+    /* Tạo khoảng cách và kích thước đồng đều */
+    .col-md-4 {
+        flex: 1 1 30%;
+        margin: 10px;
+    }
+
+    /* Hiệu ứng màu hover */
+   .card.bg-danger:hover {
+    background-color: #dc3545;
+}
+
+.card.bg-success:hover {
+    background-color: #28a745;
+}
+
+.card.bg-warning:hover {
+    background-color: #ffc107;
+}
+
+.card.bg-primary:hover {
+    background-color: #007bff;
+}
+
+.card.bg-info:hover {
+    background-color: #17a2b8;
+}
+
+.card.bg-secondary:hover {
+    background-color: #6c757d;
+}
+.sidebar a {
+    padding: 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar a:hover {
+    background: #ffc107;
+    color: #28a745;
+    padding-left: 20px;
+    border-radius: 5px;
+}
+
+/* Tooltip hiệu ứng */
+.card-body i {
+    position: relative;
+}
+
+.card-body i:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    animation: tooltipFadeIn 0.3s forwards;
+}
+
+@keyframes tooltipFadeIn {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+
+    /* Footer (nếu cần thêm sau này) */
+    footer {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }

@@ -1,14 +1,16 @@
 package model;
 
 public class Student {
-    private int id;
-    private String name;
-    private String email;
+    private int id; // ID của sinh viên
+    private String name; // Tên sinh viên
+    private String email; // Email sinh viên
     private int classId; // ID lớp học
     private String className; // Tên lớp học
 
+    // Constructor mặc định
     public Student() {}
 
+    // Constructor đầy đủ tham số
     public Student(int id, String name, String email, int classId, String className) {
         this.id = id;
         this.name = name;
@@ -17,7 +19,7 @@ public class Student {
         this.className = className;
     }
 
-    // Getter và Setter
+    // Getter và Setter cho các thuộc tính
     public int getId() {
         return id;
     }
@@ -56,5 +58,17 @@ public class Student {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    // Phương thức để hiển thị thông tin sinh viên
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", classId=" + classId +
+                ", className='" + className + '\'' +
+                '}';
     }
 }

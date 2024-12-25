@@ -71,7 +71,7 @@
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th>#</th>
+                    
                     <th>ID Học Kỳ</th>
                     <th>Tên Học Kỳ</th>
                     <th>Năm Học</th>
@@ -84,7 +84,7 @@
                         <c:forEach var="semester" items="${semesterList}" varStatus="loop">
                             <!-- Hàng chính -->
                             <tr>
-                                <td>${loop.index + 1}</td>
+                    
                                 <td>${semester.semesterId}</td>
                                 <td>${semester.semesterName}</td>
                                 <td>${semester.year}</td>

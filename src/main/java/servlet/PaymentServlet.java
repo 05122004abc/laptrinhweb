@@ -74,7 +74,7 @@ public class PaymentServlet extends HttpServlet {
 
         try {
             switch (action) {
-                case "insert":
+                case "add":
                     insertPayment(request, response);
                     break;
                 case "update":
@@ -137,17 +137,27 @@ public class PaymentServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int paymentId = Integer.parseInt(request.getParameter("id"));
-        Payment existingPayment = paymentDAO.getPaymentById(paymentId);
+        try {
+            int paymentId = Integer.parseInt(request.getParameter("id"));
+            Payment existingPayment = paymentDAO.getPaymentById(paymentId);
 
-        List<Class> classList = classDAO.getAllClasses();
-        List<Semester> semesterList = semesterDAO.getAllSemesters();
+            List<Class> classList = classDAO.getAllClasses();
+            List<Semester> semesterList = semesterDAO.getAllSemesters();
 
-        request.setAttribute("payment", existingPayment);
-        request.setAttribute("classList", classList);
-        request.setAttribute("semesterList", semesterList);
+            request.setAttribute("payment", existingPayment);
+            request.setAttribute("classList", classList);
+            request.setAttribute("semesterList", semesterList);
 
-        request.getRequestDispatcher("payments/edit.jsp").forward(request, response);
+            request.getRequestDispatcher("payments/edit.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            request.setAttribute("error", "ID thanh toán không hợp lệ.");
+            response.sendRedirect(request.getContextPath() + "/payment?action=list");
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã xảy ra lỗi khi tải thông tin thanh toán.");
+            response.sendRedirect(request.getContextPath() + "/payment?action=list");
+        }
     }
 
     private void insertPayment(HttpServletRequest request, HttpServletResponse response)
@@ -162,22 +172,27 @@ public class PaymentServlet extends HttpServlet {
             boolean isAdded = paymentDAO.addPayment(studentId, feeId, status, classId, semesterId);
 
             if (isAdded) {
-                response.sendRedirect("payment?action=list&success=true");
+                response.sendRedirect(request.getContextPath() + "/payment?action=list&success=true");
             } else {
                 request.setAttribute("error", "Thêm thanh toán không thành công. Vui lòng thử lại.");
+                request.setAttribute("classList", classDAO.getAllClasses());
+                request.setAttribute("semesterList", semesterDAO.getAllSemesters());
                 request.getRequestDispatcher("payments/add.jsp").forward(request, response);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("error", "Dữ liệu nhập không hợp lệ. Vui lòng kiểm tra lại.");
+            request.setAttribute("classList", classDAO.getAllClasses());
+            request.setAttribute("semesterList", semesterDAO.getAllSemesters());
             request.getRequestDispatcher("payments/add.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.");
+            request.setAttribute("classList", classDAO.getAllClasses());
+            request.setAttribute("semesterList", semesterDAO.getAllSemesters());
             request.getRequestDispatcher("payments/add.jsp").forward(request, response);
         }
     }
-
     private void updatePayment(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {

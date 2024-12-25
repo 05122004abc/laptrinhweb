@@ -73,19 +73,16 @@ public class SemesterDAO {
         }
     }
 
-    // Cập nhật thông tin học kỳ
     public boolean updateSemester(int semesterId, String semesterName, String year) {
-        String query = "UPDATE semesters SET semester_name = ?, year = ? WHERE semester_id = ?";
+        String sql = "UPDATE semesters SET semester_name = ?, year = ? WHERE semester_id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, semesterName);
             preparedStatement.setString(2, year);
             preparedStatement.setInt(3, semesterId);
-
-            return preparedStatement.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
+            return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error updating semester: " + e.getMessage());
             return false;
         }
     }

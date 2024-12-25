@@ -17,7 +17,7 @@ public class StudentDAO {
 	public List<Student> getAllStudents() {
 	    List<Student> studentList = new ArrayList<>();
 	    String query = "SELECT s.student_id, s.name, s.email, s.class_id, c.class_name FROM students s " +
-	                   "LEFT JOIN classes c ON s.class_id = c.class_id"; // Kết hợp với bảng classes
+	                   "LEFT JOIN classes c ON s.class_id = c.class_id"; // 
 
 	    try (Connection connection = DatabaseConnection.getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -89,7 +89,33 @@ public class StudentDAO {
             e.printStackTrace();
             return false;
         }
+    }// Lấy danh sách sinh viên theo classId
+    public List<Student> getStudentsByClassId(int classId) {
+        List<Student> studentList = new ArrayList<>();
+        String query = "SELECT s.student_id, s.name, s.email, s.class_id, c.class_name " +
+                       "FROM students s LEFT JOIN classes c ON s.class_id = c.class_id WHERE s.class_id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, classId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Student student = new Student(
+                            resultSet.getInt("student_id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getInt("class_id"),
+                            resultSet.getString("class_name")
+                    );
+                    studentList.add(student);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentList;
     }
+
 
     // Lấy thông tin sinh viên theo ID
     public Student getStudentById(int studentId) {

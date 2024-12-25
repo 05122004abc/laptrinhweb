@@ -22,6 +22,7 @@
     <style>
         body {
             font-family: 'Times New Roman', Times, serif, sans-serif;
+           
         }
 
         .main-content {
@@ -134,6 +135,10 @@
             </div>
         </div>
     </div>
+    <footer class="text-center mt-5">
+    	<p>&copy; 2024 Thanh toán đoàn phí - Đại học Sư phạm Đà Nẵng</p>
+	</footer>
+    
 
     <!-- Include necessary scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,7 +1,9 @@
 package servlet;
-
+import dao.StudentDAO;
 import dao.ClassDAO;
 import model.Class;
+import model.Student;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,13 +17,13 @@ import java.util.List;
 public class ClassServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ClassDAO classDAO;
+    private StudentDAO studentDAO; // Khai báo studentDAO
 
     @Override
     public void init() throws ServletException {
-        classDAO = new ClassDAO(); // Khởi tạo đối tượng DAO
-    }
-
-    @Override
+        classDAO = new ClassDAO(); // Khởi tạo ClassDAO
+        studentDAO = new StudentDAO(); // Khởi tạo StudentDAO
+    }    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -84,6 +86,13 @@ public class ClassServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             List<Class> classList = classDAO.getAllClasses();
+
+            for (Class clazz : classList) {
+                // Lấy danh sách sinh viên theo classId
+                List<Student> studentsList = studentDAO.getStudentsByClassId(clazz.getClassId());
+                clazz.setStudentsList(studentsList); // Gán danh sách sinh viên vào lớp
+            }
+
             request.setAttribute("classList", classList);
             request.getRequestDispatcher("classes/list.jsp").forward(request, response);
         } catch (Exception e) {

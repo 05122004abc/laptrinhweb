@@ -65,47 +65,64 @@
                         <th>Tên Lớp</th>
                         <th>Mô Tả</th>
                         <th>Chi tiết</th>
+                        <th>Danh sách sinh viên </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <c:choose>
-                        <c:when test="${not empty classList}">
-                            <c:forEach var="clazz" items="${classList}">
-                                <tr>
-                                    <td>${clazz.classId}</td>
-                                    <td>${clazz.className}</td>
-                                    <td>${clazz.description}</td>
-                                    <td>
-                                        <!-- Nút dấu cộng mở rộng -->
-                                        <span class="collapse-btn" data-toggle="collapse" data-target="#details-${clazz.classId}" 
-                                              aria-expanded="false" aria-controls="details-${clazz.classId}">
-                                            <i class="fas fa-plus"></i>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <!-- Nội dung mở rộng -->
-                                <tr class="collapse" id="details-${clazz.classId}">
-                                    <td colspan="4" class="bg-light">
-                                        <div class="action-buttons">
-                                            <a href="class?action=edit&id=${clazz.classId}" class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i> Sửa
-                                            </a>
-                                            <a href="class?action=delete&id=${clazz.classId}" class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Bạn có chắc muốn xóa lớp học này không?');">
-                                                <i class="fas fa-trash"></i> Xóa
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <tr>
-                                <td colspan="4" class="text-center">Không có lớp học nào để hiển thị.</td>
-                            </tr>
-                        </c:otherwise>
-                    </c:choose>
-                </tbody>
+  <tbody>
+    <c:choose>
+        <c:when test="${not empty classList}">
+            <c:forEach var="clazz" items="${classList}">
+                <tr>
+                    <td>${clazz.classId}</td>
+                    <td>${clazz.className}</td>
+                    <td>${clazz.description}</td>
+                    <td>
+                        <!-- Nút dấu cộng mở rộng -->
+                        <span class="collapse-btn" data-toggle="collapse" data-target="#details-${clazz.classId}" 
+                              aria-expanded="false" aria-controls="details-${clazz.classId}">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <!-- Danh sách sinh viên (nếu có) -->
+                        <c:choose>
+                            <c:when test="${not empty clazz.studentsList}">
+                                <ul>
+                                    <c:forEach var="student" items="${clazz.studentsList}">
+                                        <li>${student.name} (${student.email})</li>
+                                    </c:forEach>
+                                </ul>
+                            </c:when>
+                            <c:otherwise>
+                                Không có sinh viên
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+                <!-- Nội dung mở rộng -->
+                <tr class="collapse" id="details-${clazz.classId}">
+                    <td colspan="5" class="bg-light">
+                        <div class="action-buttons">
+                            <a href="class?action=edit&id=${clazz.classId}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Sửa
+                            </a>
+                            <a href="class?action=delete&id=${clazz.classId}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Bạn có chắc muốn xóa lớp học này không?');">
+                                <i class="fas fa-trash"></i> Xóa
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <td colspan="5" class="text-center">Không có lớp học nào để hiển thị.</td>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+</tbody>
+               
             </table>
         </div>
     </div>
@@ -131,6 +148,9 @@
                 });
             });
         });
+        
+
+
     </script>
 </body>
 </html>

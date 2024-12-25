@@ -58,7 +58,7 @@ public class SemesterServlet extends HttpServlet {
 
         try {
             switch (action) {
-                case "insert":
+                case "add":
                     insertSemester(request, response);
                     break;
                 case "update":

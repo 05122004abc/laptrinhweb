@@ -1,15 +1,17 @@
 package model;
 
-// Lớp biểu diễn thông tin lớp học
+import java.util.List;
+
 public class Class {
-    private int classId;
-    private String className;
-    private String description;
+    private int classId; // ID lớp học
+    private String className; // Tên lớp học
+    private String description; // Mô tả lớp học
+    private List<Student> studentsList; // Danh sách sinh viên trong lớp
 
-    // Constructor
-    public Class() {
-    }
+    // Constructor mặc định
+    public Class() {}
 
+    // Constructor đầy đủ tham số
     public Class(int classId, String className, String description) {
         this.classId = classId;
         this.className = className;
@@ -41,9 +43,21 @@ public class Class {
         this.description = description;
     }
 
-    // Override toString() để in thông tin lớp học
+    public List<Student> getStudentsList() {
+        return studentsList;
+    }
+
+    public void setStudentsList(List<Student> studentsList) {
+        this.studentsList = studentsList;
+    }
+
     @Override
     public String toString() {
-        return "Class [ID = " + classId + ", Tên lớp = " + className + ", Mô tả = " + description + "]";
+        return "Class{" +
+                "classId=" + classId +
+                ", className='" + className + '\'' +
+                ", description='" + description + '\'' +
+                ", studentsList=" + studentsList +
+                '}';
     }
 }

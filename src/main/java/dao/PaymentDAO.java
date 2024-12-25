@@ -9,42 +9,43 @@ import java.util.List;
 
 public class PaymentDAO {
 
-    // Lấy danh sách tất cả các khoản thanh toán kèm số tiền, tên sinh viên, lớp học và học kỳ
-    public List<Payment> getAllPayments() {
-        List<Payment> paymentList = new ArrayList<>();
-        String sql = "SELECT p.payment_id, p.student_id, p.status, f.amount, "
-                   + "c.class_name, s.name AS student_name, sem.semester_name "
-                   + "FROM payments p "
-                   + "JOIN fees f ON p.fee_id = f.fee_id "
-                   + "JOIN students s ON p.student_id = s.student_id "
-                   + "JOIN classes c ON p.class_id = c.class_id "
-                   + "JOIN semesters sem ON p.semester_id = sem.semester_id";
+	public List<Payment> getAllPayments() {
+	    List<Payment> paymentList = new ArrayList<>();
+	    String sql = "SELECT p.payment_id, p.student_id, s.name AS student_name, "
+	               + "p.fee_id, f.amount AS amount, p.status, "
+	               + "c.class_id, c.class_name, sem.semester_id, sem.semester_name "
+	               + "FROM payments p "
+	               + "JOIN students s ON p.student_id = s.student_id "
+	               + "JOIN classes c ON p.class_id = c.class_id "
+	               + "JOIN semesters sem ON p.semester_id = sem.semester_id "
+	               + "JOIN fees f ON p.fee_id = f.fee_id";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+	    try (Connection connection = DatabaseConnection.getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+	         ResultSet rs = preparedStatement.executeQuery()) {
 
-            while (rs.next()) {
-                Payment payment = new Payment(
-                        rs.getInt("payment_id"),
-                        rs.getInt("student_id"),
-                        rs.getString("student_name"),
-                        rs.getInt("fee_id"),
-                        rs.getDouble("amount"),
-                        rs.getString("status"),
-                        rs.getInt("class_id"),
-                        rs.getString("class_name"),
-                        rs.getInt("semester_id"),
-                        rs.getString("semester_name")
-                );
-                paymentList.add(payment);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error in getAllPayments: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return paymentList;
-    }
+	        while (rs.next()) {
+	            Payment payment = new Payment(
+	                    rs.getInt("payment_id"),
+	                    rs.getInt("student_id"),
+	                    rs.getString("student_name"),
+	                    rs.getInt("fee_id"),
+	                    rs.getDouble("amount"),
+	                    rs.getString("status"),
+	                    rs.getInt("class_id"),
+	                    rs.getString("class_name"),
+	                    rs.getInt("semester_id"),
+	                    rs.getString("semester_name")
+	            );
+	            paymentList.add(payment);
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error in getAllPayments: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return paymentList;
+	}
 
     // Thêm một khoản thanh toán mới
     public boolean addPayment(int studentId, int feeId, String status, int classId, int semesterId) {
@@ -184,3 +185,4 @@ public class PaymentDAO {
         return paymentList;
     }
 }
+ 
